@@ -22,7 +22,7 @@ export default function ClientsAutoSlider({
         (async () => {
             try {
                 const rows = await getClients();
-                setImages(rows.map((r) => r.logo_url));
+                setImages(rows.map((r) => r.image_url));
             } catch (e) {
                 console.error(e);
             }
