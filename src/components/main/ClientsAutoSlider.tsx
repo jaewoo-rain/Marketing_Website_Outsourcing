@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { getClients } from "../../api/clients";
 
 type Props = {
     durationSec?: number;
@@ -8,12 +9,25 @@ type Props = {
 };
 
 export default function ClientsAutoSlider({
-    durationSec = 80,
-    mobileDurationSec = 100,
+    durationSec = 15,
+    mobileDurationSec = 30,
     rows = 1,
     className = "",
 }: Props) {
     const [isMobile, setIsMobile] = useState(false);
+
+    const [images, setImages] = useState<string[]>([]);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const rows = await getClients();
+                setImages(rows.map((r) => r.logo_url));
+            } catch (e) {
+                console.error(e);
+            }
+        })();
+    }, []);
 
     useEffect(() => {
         const mq = window.matchMedia("(max-width: 639px)");
@@ -23,17 +37,17 @@ export default function ClientsAutoSlider({
         return () => mq.removeEventListener?.("change", onChange);
     }, []);
 
-    const modules = useMemo(() => {
-        return import.meta.glob("/public/images/clients/*.{png,jpg,jpeg,webp,svg}", {
-            eager: true,
-            as: "url",
-        }) as Record<string, string>;
-    }, []);
+    // const modules = useMemo(() => {
+    //     return import.meta.glob("/public/images/clients/*.{png,jpg,jpeg,webp,svg}", {
+    //         eager: true,
+    //         as: "url",
+    //     }) as Record<string, string>;
+    // }, []);
 
-    const images = useMemo(() => {
-        const list = Object.values(modules);
-        return list.sort((a, b) => a.localeCompare(b));
-    }, [modules]);
+    // const images = useMemo(() => {
+    //     const list = Object.values(modules);
+    //     return list.sort((a, b) => a.localeCompare(b));
+    // }, [modules]);
 
     const canRun = images.length > 0;
     const track = useMemo(() => [...images, ...images], [images]);

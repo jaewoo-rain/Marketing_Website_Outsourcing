@@ -4,6 +4,7 @@ import { DEFAULT_PORTFOLIO } from "../../constants/portfolio";
 import PortfolioGrid from "./PortfolioGrid";
 import { useInViewOnce } from "../../hooks/useInViewOnce"; // 경로 맞게
 import { Helmet } from "react-helmet-async";
+import { getPortfolioAll } from "../../api/portfolio";
 
 interface PortfolioProps {
   items?: PortfolioItem[];
@@ -50,28 +51,39 @@ const Portfolio: React.FC<PortfolioProps> = ({ items }) => {
   const perPage = columns * rows;
 
   useEffect(() => {
-    if (items && items.length > 0) setPortfolio(items);
-    else fetchPortfolio();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items]);
-
-  useEffect(() => {
     setPage(1);
   }, [portfolio.length]);
 
-  const fetchPortfolio = () => {
+  const fetchPortfolio = async () => {
     setLoading(true);
     try {
-      const saved = localStorage.getItem("aura_portfolio");
-      if (saved) setPortfolio(JSON.parse(saved));
-      else setPortfolio(DEFAULT_PORTFOLIO);
+      const rows = await getPortfolioAll();
+
+      const mapped: PortfolioItem[] = rows.map((r) => ({
+        id: r.id,
+        title: r.title,
+        imageUrl: r.image_url,
+        readMoreUrl: r.read_more_url,
+        isMain: r.is_main,
+        category: r.category ?? [], // ✅ null이면 빈 배열
+      }));
+
+      setPortfolio(mapped);
     } catch (error) {
       console.error("Portfolio 로드 실패:", error);
-      setPortfolio(DEFAULT_PORTFOLIO);
+      setPortfolio(DEFAULT_PORTFOLIO); // fallback 유지 가능
     } finally {
       setLoading(false);
     }
   };
+
+
+  useEffect(() => {
+    if (items && items.length > 0) setPortfolio(items);
+    else void fetchPortfolio();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items]);
+
 
   const totalPages = Math.max(1, Math.ceil(portfolio.length / perPage));
 

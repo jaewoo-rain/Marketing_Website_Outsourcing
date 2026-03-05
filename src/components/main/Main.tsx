@@ -9,6 +9,7 @@ import { useInViewOnce } from "../../hooks/useInViewOnce";
 import ClientsAutoSlider from "./ClientsAutoSlider";
 import ContactForm from "../contact/ContactForm";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
 
 function animClass({
   inView,
@@ -46,6 +47,8 @@ const Main: React.FC<MainProps> = ({ portfolio }) => {
   // 포트폴리오 섹션만 따로 감지
   const { ref: portfolioRef, inView: portfolioInView } =
     useInViewOnce<HTMLDivElement>({ threshold: 0.2 });
+
+  const navigate = useNavigate();
 
   return (
     <main>
@@ -130,6 +133,7 @@ const Main: React.FC<MainProps> = ({ portfolio }) => {
           {/* 더보기 버튼도 마지막에 등장 */}
           <div className={animClass({ inView: portfolioInView, delayMs: 520 }) + " flex justify-center mt-12"}>
             <button
+              onClick={() => navigate('/portfolio')}
               className="
               bg-transparent border-2 border-[#a62118] text-[#a62118]
               px-8 py-1 rounded-full font-bold text-s

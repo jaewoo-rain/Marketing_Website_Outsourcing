@@ -44,7 +44,7 @@ const PortfolioGrid: React.FC<PortfolioGridProps & ExtraProps> = ({
                         >
                             {/* image */}
                             <div className="group relative overflow-hidden">
-                                <img src={p.imageUrl} alt={p.title} className="block h-auto w-full" />
+                                <img src={p.imageUrl} alt={p.title} className="w-full h-[220px] object-cover" />
 
                                 {/* hover overlay */}
                                 {showReadMore && (
@@ -53,9 +53,15 @@ const PortfolioGrid: React.FC<PortfolioGridProps & ExtraProps> = ({
                                             type="button"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                onCardClick?.(p);
+
+                                                if (p.readMoreUrl) {
+                                                    window.open(p.readMoreUrl, "_blank", "noopener,noreferrer");
+                                                    return;
+                                                }
+
+                                                onCardClick?.(p); // url 없으면 기존 동작(옵션)
                                             }}
-                                            className="inline-flex items-center justify-center rounded-full bg-[#401d1c]  px-7 py-3 text-white font-medium transition hover:bg-[#A11D18]"
+                                            className="inline-flex items-center justify-center rounded-full bg-[#401d1c] px-7 py-3 text-white font-medium transition hover:bg-[#A11D18]"
                                         >
                                             {readMoreText}
                                         </button>
@@ -66,18 +72,27 @@ const PortfolioGrid: React.FC<PortfolioGridProps & ExtraProps> = ({
                             {/* body */}
                             <div className="p-7">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    {Array.isArray(p.category)
-                                        ? p.category.map((t, idx) => (
-                                            <span key={idx} className="text-sm font-semibold text-[#A11D18]">
-                                                {t}
-                                                {idx !== p.category.length - 1 ? "," : ""}
-                                            </span>
-                                        ))
-                                        : (
-                                            <span className="text-sm font-semibold text-[#A11D18]">
-                                                {String(p.category)}
-                                            </span>
-                                        )}
+                                    {(() => {
+                                        const raw = p.category as unknown;
+
+                                        // 1) 이미 배열이면 그대로
+                                        if (Array.isArray(raw)) return raw;
+
+                                        // 2) 문자열이면 { } 제거 후 콤마로 split
+                                        if (typeof raw === "string") {
+                                            const cleaned = raw.replace(/^\{|\}$/g, ""); // 앞뒤 { } 제거
+                                            if (!cleaned.trim()) return [];
+                                            return cleaned.split(",").map((s) => s.trim()).filter(Boolean);;
+                                        }
+
+                                        // 3) 그 외는 빈 배열
+                                        return [];
+                                    })().map((t, idx, arr) => (
+                                        <span key={`${t}-${idx}`} className="text-sm font-semibold text-[#A11D18]">
+                                            {t}
+                                            {idx !== arr.length - 1 ? "," : ""}
+                                        </span>
+                                    ))}
                                 </div>
 
                                 <h3 className="mt-3 w-[95%] text-[20px] font-medium leading-snug text-slate-900">

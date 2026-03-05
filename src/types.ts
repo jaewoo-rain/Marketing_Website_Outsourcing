@@ -4,13 +4,14 @@ export interface Service {
   icon: string;
 }
 
-export interface PortfolioItem {
+export type PortfolioItem = {
   id: number;
   imageUrl: string;
   title: string;
   category: string[];
-  description?: string;
-}
+  readMoreUrl?: string | null;
+  isMain?: boolean;
+};
 
 export interface AIStrategyResult {
   slogan: string;
