@@ -79,7 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const result = await resend.emails.send({
       // from: "화경마케팅 <contact@hwakyungmarketing.com>",
-      from: "onboarding@resend.dev",
+      from: "202017499@jbnu.ac.kr",
       to: "202017499@jbnu.ac.kr",
       subject: `[화경마케팅 문의] ${safeName}`,
       replyTo: email,
