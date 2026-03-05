@@ -44,13 +44,7 @@ const App: React.FC = () => {
 
   // ✅ (중요) 지금 Admin의 add/delete는 로컬 state만 바꾸는 함수라
   // DB 반영까지 하려면 나중에 insert/delete API 붙여야 함.
-  const addPortfolio = (item: PortfolioItem) => {
-    setPortfolio((prev) => [item, ...prev]);
-  };
 
-  const deletePortfolio = (id: number) => {
-    setPortfolio((prev) => prev.filter((p) => p.id !== id));
-  };
 
   return (
     <BrowserRouter>
