@@ -7,7 +7,7 @@ interface AdminProps {
   onDeletePortfolio: (id: number) => void;
 }
 
-const Admin: React.FC<AdminProps> = ({ onAddPortfolio, onDeletePortfolio}) => {
+const Admin: React.FC<AdminProps> = ({ onAddPortfolio, onDeletePortfolio }) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<string[]>(["병원"]);
   const [imageUrl, setImageUrl] = useState("");
@@ -66,7 +66,7 @@ const Admin: React.FC<AdminProps> = ({ onAddPortfolio, onDeletePortfolio}) => {
             </button>
           </form>
           <p className="mt-4 text-xs text-slate-500 text-center">
-            Hint: admin123
+            {/* Hint: admin123 */}
           </p>
         </div>
       </div>
