@@ -78,8 +78,6 @@ const App: React.FC = () => {
             path="/admin"
             element={
               <Admin
-                onAddPortfolio={addPortfolio}
-                onDeletePortfolio={deletePortfolio}
               />
             }
           />
