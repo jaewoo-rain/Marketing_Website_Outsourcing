@@ -3,6 +3,7 @@ import type { PortfolioItem } from "../../types";
 import { DEFAULT_PORTFOLIO } from "../../constants/portfolio";
 import PortfolioGrid from "./PortfolioGrid";
 import { useInViewOnce } from "../../hooks/useInViewOnce"; // 경로 맞게
+import { Helmet } from "react-helmet-async";
 
 interface PortfolioProps {
   items?: PortfolioItem[];
@@ -104,6 +105,15 @@ const Portfolio: React.FC<PortfolioProps> = ({ items }) => {
           bg-center
           bg-no-repeat
     ">
+      <Helmet>
+        <title>마케팅 포트폴리오 | 화경마케팅</title>
+
+        <meta name="description" content="화경마케팅이 진행한 블로그 마케팅, 플레이스 광고, 검색광고 및 다양한 온라인 마케팅 프로젝트 사례를 확인하세요." />
+
+        <meta property="og:title" content="마케팅 포트폴리오 | 화경마케팅" />
+        <meta property="og:description" content="온라인 마케팅 프로젝트와 성공 사례를 소개합니다." />
+      </Helmet>
+
       {/* 상단 부분 */}
       <section className="py-20 lg:py-24 xl:py-28">
         <div className="text-center">
@@ -112,7 +122,7 @@ const Portfolio: React.FC<PortfolioProps> = ({ items }) => {
           </h2>
 
           <p className={animClass({ inView, delayMs: 120, from: "up" }) + " mt-3 text-lg text-black/60"}>
-          단순한 포트폴리오를 넘어 비즈니스의 해답이 된 레퍼런스들
+            단순한 포트폴리오를 넘어 비즈니스의 해답이 된 레퍼런스들
           </p>
         </div>
       </section>

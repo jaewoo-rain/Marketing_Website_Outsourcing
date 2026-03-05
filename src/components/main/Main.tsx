@@ -8,6 +8,7 @@ import AttentionSection from "./AttentionSection";
 import { useInViewOnce } from "../../hooks/useInViewOnce";
 import ClientsAutoSlider from "./ClientsAutoSlider";
 import ContactForm from "../contact/ContactForm";
+import { Helmet } from "react-helmet-async";
 
 function animClass({
   inView,
@@ -40,12 +41,25 @@ interface MainProps {
 }
 
 const Main: React.FC<MainProps> = ({ portfolio }) => {
+
+
   // 포트폴리오 섹션만 따로 감지
   const { ref: portfolioRef, inView: portfolioInView } =
     useInViewOnce<HTMLDivElement>({ threshold: 0.2 });
 
   return (
     <main>
+      <Helmet>
+        <title>화경마케팅 | 블로그 마케팅 · 플레이스 광고 · 검색광고 전문</title>
+
+        <meta name="description" content="화경마케팅은 네이버 블로그 마케팅, 플레이스 광고, 검색광고, 체험단 및 기자단 운영을 통해 브랜드 노출과 고객 유입을 높이는 온라인 마케팅 전문 기업입니다." />
+
+        <meta name="keywords" content="블로그마케팅, 플레이스광고, 검색광고, 네이버마케팅, 체험단마케팅, 기자단마케팅, 온라인마케팅" />
+
+        <meta property="og:title" content="화경마케팅 | 온라인 마케팅 전문" />
+        <meta property="og:description" content="블로그 마케팅, 플레이스 광고, 검색광고, 체험단 및 기자단 운영으로 브랜드 노출과 고객 유입을 높입니다." />
+      </Helmet>
+
       <div
         className="
           bg-[url('/images/bg.png')]
