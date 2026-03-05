@@ -2,16 +2,6 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { requireAdmin } from "./_auth.js";
 import { supabaseAdmin } from "./_supabase.js";
 
-type PortfolioRow = {
-    id: number;
-    title: string;
-    image_url: string;
-    read_more_url: string | null;
-    is_main: boolean;
-    category: string[];
-    created_at: string;
-};
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!requireAdmin(req, res)) return;
 
