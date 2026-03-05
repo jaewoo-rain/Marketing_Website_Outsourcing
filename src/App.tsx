@@ -17,12 +17,10 @@ import { getMainPortfolio } from "./api/portfolio";
 const App: React.FC = () => {
   const [isAdminView, setIsAdminView] = useState(false);
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
-  const [loadingMainPortfolio, setLoadingMainPortfolio] = useState(false);
 
   // ✅ 홈(Main)에서 쓸 메인 포폴: DB에서 로드
   useEffect(() => {
     (async () => {
-      setLoadingMainPortfolio(true);
       try {
         const rows = await getMainPortfolio();
 
@@ -40,7 +38,6 @@ const App: React.FC = () => {
         console.error("메인 포트폴리오 로드 실패:", e);
         setPortfolio([]); // 실패시 빈 배열
       } finally {
-        setLoadingMainPortfolio(false);
       }
     })();
   }, []);
