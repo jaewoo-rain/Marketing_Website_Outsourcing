@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { submitContact } from "../../api/Contact";
 
 interface ContactFormProps {
   className?: string;
@@ -12,6 +13,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = "" }) => {
   const [phone3, setPhone3] = useState("");
   const [product, setProduct] = useState("STANDARD");
   const [message, setMessage] = useState("");
+  // 허니팟 (숨김 필드)
+  const [website, setWebsite] = useState("");
+
+  // 전송 상태(중복 submit 방지)
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [errors, setErrors] = useState({
     company: false,
@@ -19,7 +25,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = "" }) => {
     phone: false,
   });
 
-  const onSub = () => {
+  // onSub를 async로
+  const onSub = async () => {
     const nextErrors = {
       company: company.trim() === "",
       email: email.trim() === "",
@@ -29,14 +36,36 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = "" }) => {
     setErrors(nextErrors);
 
     const hasError = Object.values(nextErrors).some(Boolean);
-    if (!hasError) {
-      console.log("성공 ", {
-        company,
+    if (hasError) return;
+
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    try {
+      await submitContact({
+        name: company, // company -> name으로 보냄
         email,
         phone: `${phone1}-${phone2}-${phone3}`,
         product,
         message,
+        website, // 허니팟
       });
+
+      alert("문의가 전송되었습니다!");
+
+      // 폼 초기화
+      setCompany("");
+      setEmail("");
+      setPhone1("");
+      setPhone2("");
+      setPhone3("");
+      setProduct("STANDARD");
+      setMessage("");
+      setWebsite("");
+    } catch (e: any) {
+      alert(e.message || "전송 실패");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -135,9 +164,8 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = "" }) => {
             <label className="text-[14px] font-bold text-black">연락처 *</label>
 
             <div
-              className={`flex items-center gap-3 text-black ${
-                errors.phone ? "ring-2 ring-[#A11D18] rounded-sm p-1" : ""
-              }`}
+              className={`flex items-center gap-3 text-black ${errors.phone ? "ring-2 ring-[#A11D18] rounded-sm p-1" : ""
+                }`}
             >
               <input
                 type="text"
@@ -228,9 +256,11 @@ const ContactForm: React.FC<ContactFormProps> = ({ className = "" }) => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full py-5 bg-[#a62118] hover:bg-[#8e1c14] text-white rounded-lg font-bold text-xl transition-all shadow-md active:scale-[0.98]"
+            disabled={isSubmitting}
+            className={`w-full py-5 bg-[#a62118] hover:bg-[#8e1c14] text-white rounded-lg font-bold text-xl transition-all shadow-md active:scale-[0.98] ${isSubmitting ? "opacity-60 cursor-not-allowed" : ""
+              }`}
           >
-            Submit
+            {isSubmitting ? "Sending..." : "Submit"}
           </button>
         </form>
       </div>
