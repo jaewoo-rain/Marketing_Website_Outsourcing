@@ -81,7 +81,7 @@ const Main: React.FC<MainProps> = ({ portfolio }) => {
         <section id="OurClient" className="py-20">
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center space-y-3">
-              <div id="batang" className="text-black text-4xl font-bold leading-10 mb-6">화경과 함께한 파트너사</div>
+              <div id="batang" className="text-black text-3xl sm:text-4xl font-bold leading-10 mb-6">화경과 함께한 파트너사</div>
               <div className="text-black text-md font-normal leading-5">수많은 성공 사례로 검증된 화경만의 공식을 바탕으로 브랜드가 직면한 불확실성을 독보적인 확신으로 바꿔 드립니다.</div>
             </div>
             <div className="mt-10">
@@ -134,10 +134,10 @@ const Main: React.FC<MainProps> = ({ portfolio }) => {
         <section id="contact" className="relative py-20 px-6 flex flex-col items-center overflow-hidden
            bg-[length:100%_100%] 
       ">
-        <div className="w-full max-w-6xl">
+          <div className="w-full max-w-6xl">
 
-          <ContactForm />
-        </div>
+            <ContactForm />
+          </div>
         </section>
       </div>
     </main>
