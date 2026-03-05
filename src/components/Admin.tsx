@@ -368,9 +368,11 @@ function PortfolioModal({
   async function save() {
     setBusy(true);
     setMsg("");
-
     try {
-      const category = categoryText.trim(); // ✅ 배열 → 텍스트
+      const category = categoryText
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
 
       if (!title.trim()) throw new Error("제목 필수");
       if (!imageUrl.trim()) throw new Error("이미지 필수");

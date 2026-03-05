@@ -3,6 +3,47 @@ import type { PortfolioGridProps } from "../../types";
 
 type Columns = 3 | 4;
 
+function normalizeCategory(input: unknown): string[] {
+    // null/undefined -> []
+    if (input == null) return [];
+
+    // 이미 배열이면 문자열만 남기고 trim
+    if (Array.isArray(input)) {
+        return input
+            .map((x) => String(x).trim())
+            .filter(Boolean);
+    }
+
+    // 문자열이면:
+    // - "['a','b']" 또는 '["a","b"]' 같은 JSON 문자열
+    // - "{a,b}" 같은 postgres array 문자열
+    // - "a,b" 같은 일반 문자열
+    if (typeof input === "string") {
+        const s = input.trim();
+        if (!s) return [];
+
+        // JSON 배열 문자열이면 파싱 시도
+        if ((s.startsWith("[") && s.endsWith("]")) || (s.startsWith('"[') && s.endsWith(']"'))) {
+            try {
+                const parsed = JSON.parse(s);
+                if (Array.isArray(parsed)) return parsed.map((x) => String(x).trim()).filter(Boolean);
+            } catch { }
+        }
+
+        // postgres array 형태: {a,b} 또는 {"a","b"}
+        const cleaned = s.replace(/^\{|\}$/g, ""); // { } 제거
+        if (!cleaned.trim()) return [];
+
+        return cleaned
+            .split(",")
+            .map((x) => x.trim().replace(/^"+|"+$/g, "")) // 양쪽 " 제거
+            .filter(Boolean);
+    }
+
+    // 그 외는 string으로 바꿔서 1개짜리로 처리할지/버릴지 선택
+    return [];
+}
+
 const getResponsiveCols = (cols: Columns) => {
     return cols === 3
         ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
@@ -72,25 +113,10 @@ const PortfolioGrid: React.FC<PortfolioGridProps & ExtraProps> = ({
                             {/* body */}
                             <div className="p-7">
                                 <div className="flex flex-wrap items-center gap-2">
-                                    {(() => {
-                                        const raw = p.category as unknown;
-
-                                        // 1) 이미 배열이면 그대로
-                                        if (Array.isArray(raw)) return raw;
-
-                                        // 2) 문자열이면 { } 제거 후 콤마로 split
-                                        if (typeof raw === "string") {
-                                            const cleaned = raw.replace(/^\{|\}$/g, ""); // 앞뒤 { } 제거
-                                            if (!cleaned.trim()) return [];
-                                            return cleaned.split(",").map((s) => s.trim()).filter(Boolean);;
-                                        }
-
-                                        // 3) 그 외는 빈 배열
-                                        return [];
-                                    })().map((t, idx, arr) => (
+                                    {normalizeCategory(p.category).map((t, idx, arr) => (
                                         <span key={`${t}-${idx}`} className="text-sm font-semibold text-[#A11D18]">
                                             {t}
-                                            {idx !== arr.length - 1 ? "," : ""}
+                                            {idx !== arr.length - 1 ? ", " : ""}
                                         </span>
                                     ))}
                                 </div>
