@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { put } from "@vercel/blob";
-import { requireAdmin } from "./_auth";
+import { requireAdmin } from "./_auth.js";
 
 type Body = {
     filename: string;
