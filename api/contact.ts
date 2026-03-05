@@ -77,7 +77,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const safeProduct = escapeHtml(product || "-");
     const safeMessage = escapeHtml(message).replaceAll("\n", "<br/>");
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       // from: "화경마케팅 <contact@hwakyungmarketing.com>",
       from: "onboarding@resend.dev",
       to: "hahahoho3797@naver.com",
@@ -94,6 +94,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         <p>${safeMessage}</p>
       `,
     });
+
+    console.log("RESEND_RESULT:", result);
+
 
     return res.status(200).json({ ok: true });
   } catch (error) {
