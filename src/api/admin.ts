@@ -17,7 +17,7 @@ export type PortfolioDTO = {
     image_url: string;
     read_more_url: string | null;
     is_main: boolean;
-    category: string[];
+    category: string;
     created_at: string;
 };
 
