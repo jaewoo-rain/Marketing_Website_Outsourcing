@@ -300,6 +300,7 @@
 import React from "react";
 import { useInViewOnce } from "../../hooks/useInViewOnce";
 import ContactForm from "./ContactForm";
+import { Helmet } from "react-helmet-async";
 
 function animClass({
   inView,
@@ -337,6 +338,15 @@ const Contact: React.FC = () => {
           bg-[url('/images/bg.png')] bg-[length:100%_100%]
       "
     >
+      <Helmet>
+        <title>마케팅 문의 | 화경마케팅</title>
+
+        <meta name="description" content="블로그 마케팅, 플레이스 광고, 검색광고, 체험단 및 기자단 운영 등 온라인 마케팅 상담을 화경마케팅에 문의하세요." />
+
+        <meta property="og:title" content="마케팅 상담 문의 | 화경마케팅" />
+        <meta property="og:description" content="온라인 마케팅 상담 및 협업 문의를 환영합니다." />
+      </Helmet>
+
       <div ref={ref} className="w-full max-w-6xl">
         {/* 상단 타이틀 섹션 */}
         <div className={animClass({ inView, delayMs: 0, from: "right" }) + " text-center mb-24 py-20 lg:py-20 xl:py-24"}>

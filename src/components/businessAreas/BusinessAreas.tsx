@@ -1,12 +1,21 @@
 import React from "react";
 import { AreaCard } from "./AreaCard";
 import { ServiceBox } from "./ServiceBox";
+import { Helmet } from "react-helmet-async";
 
 const BusinessAreas: React.FC = () => {
     return (
         <section className="relative py-20 lg:py-20 xl:py-24 px-6 flex flex-col items-center overflow-hidden text-black
           bg-[url('/images/bg.png')] bg-[length:100%_100%]
         ">
+            <Helmet>
+                <title>마케팅 서비스 | 화경마케팅</title>
+
+                <meta name="description" content="검색광고, 네이버 블로그 마케팅, 플레이스 광고, 체험단 운영, 기자단 운영 등 브랜드 노출과 검색 유입을 극대화하는 맞춤형 온라인 마케팅 서비스를 제공합니다." />
+
+                <meta property="og:title" content="마케팅 서비스 | 화경마케팅" />
+                <meta property="og:description" content="검색광고, 블로그 광고, 플레이스 광고, 체험단 및 기자단 운영 서비스를 제공합니다." />
+            </Helmet>
             {/* 1. 상단 헤더 섹션 */}
             <div className="animate_right text-center py-20 lg:py-24 xl:py-28">
                 <h2 id="batang" className="text-[56px] font-bold tracking-tight text-black mb-4">사업영역</h2>

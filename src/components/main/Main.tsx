@@ -8,6 +8,7 @@ import AttentionSection from "./AttentionSection";
 import { useInViewOnce } from "../../hooks/useInViewOnce";
 import ClientsAutoSlider from "./ClientsAutoSlider";
 import ContactForm from "../contact/ContactForm";
+import { Helmet } from "react-helmet-async";
 
 function animClass({
   inView,
@@ -40,12 +41,25 @@ interface MainProps {
 }
 
 const Main: React.FC<MainProps> = ({ portfolio }) => {
+
+
   // 포트폴리오 섹션만 따로 감지
   const { ref: portfolioRef, inView: portfolioInView } =
     useInViewOnce<HTMLDivElement>({ threshold: 0.2 });
 
   return (
     <main>
+      <Helmet>
+        <title>화경마케팅 | 블로그 마케팅 · 플레이스 광고 · 검색광고 전문</title>
+
+        <meta name="description" content="화경마케팅은 네이버 블로그 마케팅, 플레이스 광고, 검색광고, 체험단 및 기자단 운영을 통해 브랜드 노출과 고객 유입을 높이는 온라인 마케팅 전문 기업입니다." />
+
+        <meta name="keywords" content="블로그마케팅, 플레이스광고, 검색광고, 네이버마케팅, 체험단마케팅, 기자단마케팅, 온라인마케팅" />
+
+        <meta property="og:title" content="화경마케팅 | 온라인 마케팅 전문" />
+        <meta property="og:description" content="블로그 마케팅, 플레이스 광고, 검색광고, 체험단 및 기자단 운영으로 브랜드 노출과 고객 유입을 높입니다." />
+      </Helmet>
+
       <div
         className="
           bg-[url('/images/bg.png')]
@@ -81,7 +95,7 @@ const Main: React.FC<MainProps> = ({ portfolio }) => {
         <section id="OurClient" className="py-20">
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center space-y-3">
-              <div id="batang" className="text-black text-4xl font-bold leading-10 mb-6">화경과 함께한 파트너사</div>
+              <div id="batang" className="text-black text-3xl sm:text-4xl font-bold leading-10 mb-6">화경과 함께한 파트너사</div>
               <div className="text-black text-md font-normal leading-5">수많은 성공 사례로 검증된 화경만의 공식을 바탕으로 브랜드가 직면한 불확실성을 독보적인 확신으로 바꿔 드립니다.</div>
             </div>
             <div className="mt-10">
@@ -134,10 +148,10 @@ const Main: React.FC<MainProps> = ({ portfolio }) => {
         <section id="contact" className="relative py-20 px-6 flex flex-col items-center overflow-hidden
            bg-[length:100%_100%] 
       ">
-        <div className="w-full max-w-6xl">
+          <div className="w-full max-w-6xl">
 
-          <ContactForm />
-        </div>
+            <ContactForm />
+          </div>
         </section>
       </div>
     </main>

@@ -33,19 +33,19 @@ const PricingSection = () => {
     const { ref, inView } = useInViewOnce<HTMLElement>({ threshold: 0.2 });
 
     return (
-        <section ref={ref}  className="w-full flex justify-center py-16">
+        <section ref={ref} className="w-full flex justify-center py-16">
             {/* 전체 컨테이너 */}
             <div className="max-w-[1276px] w-full flex flex-col items-center gap-16 px-6">
                 {/* 타이틀 (맨 먼저) */}
                 <div
-                id="batang"
+                    id="batang"
                     className={
                         animClass({ inView, delayMs: 0, from: "up" }) +
-                        " text-center text-4xl font-bold leading-relaxed"
+                        " text-center text-xl sm:text-4xl font-bold leading-relaxed"
                     }
                 >
                     <span className="text-red-800">최고의 퀄리티</span>
-                    <span className="text-black">를 업계 최대 수준의 </span>
+                    <span className="text-black">를 업계 최대 수준의 </span> <br />
                     <span className="text-red-800">최저가 패키지</span>
                     <span className="text-black">로</span>
                 </div>
