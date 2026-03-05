@@ -231,7 +231,6 @@ function TabButton({
 /* ---------------- Portfolio Panel ---------------- */
 
 function PortfolioPanel({
-  token,
   rows,
   onEdit,
   onCreate,
@@ -465,7 +464,6 @@ function PortfolioModal({
 /* ---------------- Clients Panel ---------------- */
 
 function ClientsPanel({
-  token,
   rows,
   onEdit,
   onCreate,
