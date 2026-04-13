@@ -254,8 +254,23 @@ function PortfolioPanel({
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
-    if (!s) return rows;
-    return rows.filter((r) => (r.title || "").toLowerCase().includes(s));
+
+    const searched = !s
+      ? rows
+      : rows.filter((r) => (r.title || "").toLowerCase().includes(s));
+
+    return [...searched].sort((a, b) => {
+      // 1) 메인 체크된 것 먼저
+      if (a.is_main !== b.is_main) {
+        return a.is_main ? -1 : 1;
+      }
+
+      // 2) 그 안에서 created_at 최신순
+      const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+      const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+
+      return timeB - timeA;
+    });
   }, [rows, q]);
 
   async function remove(id: number) {
