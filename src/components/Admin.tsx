@@ -142,7 +142,12 @@ export default function Admin() {
             onCreated={(row) => setPortfolio((prev) => [row, ...prev])}
             onUpdated={(row) => setPortfolio((prev) => prev.map((x) => (x.id === row.id ? row : x)))}
             onDeleted={(id) => setPortfolio((prev) => prev.filter((x) => x.id !== id))}
-            onEdit={(row) => setEditingPortfolio(row)}
+            onEdit={(row) =>
+              setEditingPortfolio({
+                ...row,
+                category: Array.isArray(row.category) ? [...row.category] : [],
+              })
+            }
             onCreate={() =>
               setEditingPortfolio({
                 id: 0,
@@ -178,6 +183,7 @@ export default function Admin() {
         {/* Modals */}
         {editingPortfolio && (
           <PortfolioModal
+            key={`portfolio-${editingPortfolio.id}-${editingPortfolio.created_at}`}
             token={token}
             initial={editingPortfolio}
             onClose={() => setEditingPortfolio(null)}
@@ -267,7 +273,7 @@ function PortfolioPanel({
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
-        <button onClick={onCreate} className="rounded-lg bg-[#A11D18] px-4 py-2 text-white font-semibold hover:opacity-90">
+        <button onClick={onCreate} className="rounded-lg bg-[#A11D18] px-4 py-2 text-white font-semibold hover:opacity-90  whitespace-nowrap">
           추가
         </button>
       </div>
@@ -305,7 +311,9 @@ function PortfolioPanel({
                   )}
                 </td>
                 <td className="py-3 text-right">
-                  <button onClick={() => onEdit(r)} className="mr-2 rounded-lg border bg-white px-3 py-1.5 hover:bg-slate-100">
+                  <button 
+                  type="button"
+                  onClick={() => onEdit(r)} className="mr-2 rounded-lg border bg-white px-3 py-1.5 hover:bg-slate-100">
                     수정
                   </button>
                   <button onClick={() => void remove(r.id)} className="rounded-lg border bg-white px-3 py-1.5 hover:bg-red-50 hover:text-red-600">
@@ -434,7 +442,7 @@ function PortfolioModal({
         <Field label="이미지">
           <div className="flex items-center gap-3">
             <input className="w-full rounded-lg border px-4 py-2" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="이미지 URL 또는 업로드" />
-            <label className="rounded-lg border bg-white px-3 py-2 text-sm font-semibold hover:bg-slate-100 cursor-pointer">
+            <label className="rounded-lg border bg-white px-3 py-2 text-sm font-semibold hover:bg-slate-100 cursor-pointer  whitespace-nowrap">
               업로드
               <input type="file" accept="image/*" className="hidden" onChange={(e) => void onPickFile(e.target.files?.[0])} />
             </label>
@@ -500,7 +508,7 @@ function ClientsPanel({
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
-        <button onClick={onCreate} className="rounded-lg bg-[#A11D18] px-4 py-2 text-white font-semibold hover:opacity-90">
+        <button onClick={onCreate} className="rounded-lg bg-[#A11D18] px-4 py-2 text-white font-semibold hover:opacity-90  whitespace-nowrap">
           추가
         </button>
       </div>
@@ -634,7 +642,7 @@ function ClientModal({
         <Field label="로고 이미지">
           <div className="flex items-center gap-3">
             <input className="w-full rounded-lg border px-4 py-2" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="이미지 URL 또는 업로드" />
-            <label className="rounded-lg border bg-white px-3 py-2 text-sm font-semibold hover:bg-slate-100 cursor-pointer">
+            <label className="rounded-lg border bg-white px-3 py-2 text-sm font-semibold hover:bg-slate-100 cursor-pointer whitespace-nowrap">
               업로드
               <input type="file" accept="image/*" className="hidden" onChange={(e) => void onPickFile(e.target.files?.[0])} />
             </label>
